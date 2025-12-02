@@ -27,6 +27,7 @@ export default function UserDashboard({ user }: { user: any }) {
       <DashboardControls
         category={category}
         categories={["all"]} // TODO: replace with user's categories
+        imagesCount={images.length}
         onCategoryChange={handleCategoryChange}
         onGenerate={handleGenerate}
         onUpload={handleUpload}

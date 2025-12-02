@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 type DashboardControlsProps = {
   category: string;
   categories: string[];
+  imagesCount: number;
   onCategoryChange: (category: string) => void;
   onGenerate: () => void;
   onUpload: () => void;
@@ -14,6 +15,7 @@ type DashboardControlsProps = {
 export function DashboardControls({
   category,
   categories,
+  imagesCount,
   onCategoryChange,
   onGenerate,
   onUpload,
@@ -36,7 +38,12 @@ export function DashboardControls({
         </select>
       </div>
 
-      <Button size="lg" className="w-full" onClick={onGenerate}>
+      <Button
+        size="lg" 
+        className="w-full" 
+        onClick={onGenerate}
+        disabled={imagesCount === 0}
+      >
         Generate Random Image
       </Button>
 
