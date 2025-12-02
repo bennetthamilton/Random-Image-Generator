@@ -9,10 +9,6 @@ export default function Hero() {
         Log in or sign up to upload images, organize your own categories, and
         generate a random image from your personal gallery.
       </p>
-      <p className="text-sm text-foreground/60">
-        Create categories like <strong>Animals</strong>, <strong>Nature</strong>,{" "}
-        <strong>People</strong>, and more.
-      </p>
       <Suspense>
         <AuthButton />
       </Suspense>
