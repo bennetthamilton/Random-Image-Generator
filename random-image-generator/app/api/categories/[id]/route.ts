@@ -13,19 +13,19 @@ type Params = {
 };
 
 // GET /api/categories/[id] - Retrieve a specific category by ID
-export async function GET(_req: Request, { params }: Params) {
-  const { id } = params;
+// export async function GET(_req: Request, { params }: Params) {
+//   const { id } = params;
 
-  const { data, error } = await supabase
-    .from("categories")
-    .select("*")
-    .eq("id", id)
-    .single();
+//   const { data, error } = await supabase
+//     .from("categories")
+//     .select("*")
+//     .eq("id", id)
+//     .single();
 
-  if (error) return NextResponse.json({ error }, { status: 500 });
+//   if (error) return NextResponse.json({ error }, { status: 500 });
 
-  return NextResponse.json(data);
-}
+//   return NextResponse.json(data);
+// }
 
 // PATCH /api/categories/[id] - Update a specific category by ID
 export async function PATCH(req: Request, { params }: Params) {
