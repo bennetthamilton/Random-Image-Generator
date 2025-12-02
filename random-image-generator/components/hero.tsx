@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { AuthButton } from "@/components/auth-button";
+import { AuthButton } from "@/components/buttons/auth-button";
 
 export default function Hero() {
   return (

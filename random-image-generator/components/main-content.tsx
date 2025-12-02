@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Hero from "@/components/hero";              
-import UserDashboard from "@/components/dashboard"; 
+import UserDashboard from "@/components/dashboard/user-dashboard"; 
 
 export default async function MainContent() {
   const supabase = await createClient();
