@@ -31,7 +31,9 @@ export default function Home() {
         
         {/* ---------------- MAIN CONTENT ---------------- */}
         <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5">
-          <MainContent />
+          <Suspense fallback={<div>Loading...</div>}>
+            <MainContent />            
+          </Suspense>
         </div>
 
         {/* ---------------- FOOTER ---------------- */}
