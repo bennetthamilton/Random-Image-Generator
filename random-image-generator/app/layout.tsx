@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { ImagesProvider } from "@/contexts/imagesContext";
+import { CategoriesProvider } from "@/contexts/categoryContext";
 // import { ProfileProvider } from "@/contexts/profileContext";
 import "./globals.css";
 
@@ -36,9 +37,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ImagesProvider>
-            {/* <ProfileProvider> */}
-              {children}
-            {/* </ProfileProvider> */}
+            <CategoriesProvider>
+              {/* <ProfileProvider> */}
+                {children}
+              {/* </ProfileProvider> */}              
+            </CategoriesProvider>
           </ImagesProvider>
         </ThemeProvider>
       </body>
