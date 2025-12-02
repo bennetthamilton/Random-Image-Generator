@@ -19,9 +19,9 @@ import { createClient } from "@/lib/supabase/server";
 // PATCH /api/categories/[id] - Update a specific category by ID
 export async function PATCH(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = context.params;
+  const { id } = await params;
   const supabase = await createClient();
   const body = await req.json();
   const { name } = body;
@@ -40,9 +40,10 @@ export async function PATCH(
 
 // DELETE /api/categories/[id] - Delete a specific category by ID
 export async function DELETE(
-  context: { params: { id: string } }
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = context.params;
+  const { id } = await params;
   const supabase = await createClient();
 
   const { error } = await supabase.from("categories").delete().eq("id", id);
