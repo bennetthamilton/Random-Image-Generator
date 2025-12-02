@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
+// GET /api/categories - Retrieve categories for the authenticated user
 export async function GET() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -18,6 +19,7 @@ export async function GET() {
   return NextResponse.json({ categories: data });
 }
 
+// POST /api/categories - Create a new category for the authenticated user
 export async function POST(request: Request) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
