@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState, useCallback } from "react";
 import { Image } from "@/types/image";
-import { createClient } from "@/lib/supabase/client";
 
 type ImagesContextType = {
   images: Image[];
@@ -15,7 +14,6 @@ const ImagesContext = createContext<ImagesContextType | undefined>(undefined);
 
 export function ImagesProvider({ children }: { children: React.ReactNode }) {
   const [images, setImages] = useState<Image[]>([]);
-  const supabase = createClient();
 
   // Fetch images
   const refreshImages = useCallback(async (category?: string) => {
