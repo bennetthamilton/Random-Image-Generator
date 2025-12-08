@@ -1,3 +1,4 @@
+// TODO: Implement page for category management
 "use client";
 
 import { useState } from "react";
