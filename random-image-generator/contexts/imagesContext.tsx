@@ -5,8 +5,8 @@ import { Image } from "@/types/image";
 
 type ImagesContextType = {
   images: Image[];
-  refreshImages: (category?: string) => Promise<void>;
-  uploadImages: (files: File[], category?: string) => Promise<void>;
+  refreshImages: (category_id?: string | null) => Promise<void>;
+  uploadImages: (files: File[], category_id?: string | null) => Promise<void>;
   deleteImage: (path: string) => Promise<void>;
 };
 
@@ -16,24 +16,43 @@ export function ImagesProvider({ children }: { children: React.ReactNode }) {
   const [images, setImages] = useState<Image[]>([]);
 
   // Fetch images
-  const refreshImages = useCallback(async (category?: string) => {
-    const params = category ? `?category=${category}` : "";
+  const refreshImages = useCallback(async (category_id?: string | null) => {
+    const params =
+      category_id && category_id !== "all"
+        ? `?category_id=${category_id}`
+        : "";
+
     const res = await fetch(`/api/images${params}`);
     const data = await res.json();
+
     setImages(data.images || []);
   }, []);
 
   // Upload images
-  const uploadImages = useCallback(async (files: File[], category?: string) => {
-    if (!files.length) return;
-    const formData = new FormData();
-    for (const file of files) formData.append("images", file);
-    if (category) formData.append("category", category);
+  const uploadImages = useCallback(
+    async (files: File[], category_id?: string | null) => {
+      if (!files.length) return;
 
-    const res = await fetch("/api/images", { method: "POST", body: formData });
-    await res.json();
-    await refreshImages(category);
-  }, [refreshImages]);
+      const formData = new FormData();
+      for (const file of files) {
+        formData.append("images", file);
+      }
+
+      // category_id can be null (uncategorized)
+      if (category_id) {
+        formData.append("category_id", category_id);
+      }
+
+      const res = await fetch("/api/images", {
+        method: "POST",
+        body: formData,
+      });
+
+      await res.json();
+      await refreshImages(category_id);
+    },
+    [refreshImages]
+  );
 
   // Delete image
   const deleteImage = useCallback(async (path: string) => {
@@ -41,6 +60,7 @@ export function ImagesProvider({ children }: { children: React.ReactNode }) {
       method: "DELETE",
       body: JSON.stringify({ path }),
     });
+    
     await res.json();
     setImages((prev) => prev.filter((img) => img.path !== path));
   }, []);
