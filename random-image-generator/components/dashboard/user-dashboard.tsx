@@ -277,7 +277,7 @@ export default function UserDashboard({ user }: { user: any }) {
                     </Button>
                   </DropdownMenuTrigger>
 
-                  <DropdownMenuContent>
+                  <DropdownMenuContent className="z-[99999]">
 
                     <DropdownMenuLabel>Assign Category</DropdownMenuLabel>
 
