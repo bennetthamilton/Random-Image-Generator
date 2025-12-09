@@ -132,7 +132,7 @@ export default function UserDashboard({ user }: { user: any }) {
             className="max-w-5xl w-full max-h-[85vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 pt-6">
 
               {/* HEADER */}
               <div className="flex justify-between items-center">
