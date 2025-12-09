@@ -22,7 +22,10 @@ export function ImagesProvider({ children }: { children: React.ReactNode }) {
         ? `?category_id=${category_id}`
         : "";
 
-    const res = await fetch(`/api/images${params}`);
+    const res = await fetch(`/api/images${params}`, {
+      method: "GET",
+      cache: "no-store",  // force re-fetch
+    });
     const data = await res.json();
 
     setImages(data.images || []);
