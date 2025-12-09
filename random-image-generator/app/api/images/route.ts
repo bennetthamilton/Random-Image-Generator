@@ -76,9 +76,10 @@ export async function POST(request: Request) {
       .from("images")
       .upload(path, file);
 
-    console.log("UPLOAD ERROR:", uploadError);
-
-    if (uploadError) continue;
+    if (uploadError) {
+      console.error("STORAGE UPLOAD ERROR:", uploadError);
+      return NextResponse.json({ message: uploadError.message }, { status: 500 });
+    }
 
     // Insert into table
     const { data: newImage, error: insertError } = await supabase
