@@ -7,7 +7,7 @@ import { useImages } from "@/contexts/imagesContext";
 import { useCategories } from "@/contexts/categoryContext";
 
 export default function UserDashboard({ user }: { user: any }) {
-  const { images, refreshImages } = useImages();
+  const { images, refreshImages, uploadImages } = useImages();
   const {
     categories,
     refreshCategories,
@@ -32,11 +32,34 @@ export default function UserDashboard({ user }: { user: any }) {
   };
 
   const handleGenerate = () => {
-    // TODO: implement generate logic
+    
   };
 
   const handleUpload = () => {
-    // TODO: trigger upload modal
+    const input = document.createElement("input");
+    input.type = "file";
+    input.multiple = true;
+    input.accept = "image/*";
+
+    input.onchange = async (e: any) => {
+      const files = Array.from(e.target.files) as File[];
+      if (files.length === 0) return;
+
+      const category_id =
+        category === "all" || category === "__new__" ? null : category;
+
+      // Upload
+      await uploadImages(files, category_id);
+
+      // Refresh based on UI state (NOT category_id)
+      if (category === "all") {
+        await refreshImages();        // show ALL images
+      } else {
+        await refreshImages(category); // show category images
+      }
+    };
+
+    input.click();
   };
 
   return (
