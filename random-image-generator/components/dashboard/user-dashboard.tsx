@@ -267,7 +267,7 @@ export default function UserDashboard({ user }: { user: any }) {
                 </Button>
 
                 {/* CATEGORIZE SELECTED (Dropdown) */}
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="outline"
