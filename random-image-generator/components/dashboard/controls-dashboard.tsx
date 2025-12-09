@@ -72,15 +72,15 @@ export function DashboardControls({
             onChange={(e) => setNewCategoryName(e.target.value)}
           />
 
-          {/* TODO button – currently disabled if no images */}
-          <Button
+          {/* TODO button - select from uploaded images to categorize */}
+          {/* <Button
             variant="outline"
             size="lg"
             className="w-full"
             disabled={imagesCount === 0}
           >
             Select From Uploaded Images
-          </Button>
+          </Button> */}
 
           {/* CREATE CATEGORY */}
           <Button
