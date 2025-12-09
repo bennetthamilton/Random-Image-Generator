@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 // Force dynamic to ensure to always fetch data on reload
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 // GET /api/images - Retrieve images for the authenticated user
 export async function GET(request: Request) {
