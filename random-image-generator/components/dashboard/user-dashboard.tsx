@@ -39,7 +39,14 @@ export default function UserDashboard({ user }: { user: any }) {
   };
 
   const handleGenerate = () => {
+    if (images.length === 0) {
+      setFeaturedImage(null);
+      return;
+    }
     
+    // Pick a random image from current images
+    const randomIndex = Math.floor(Math.random() * images.length);
+    setFeaturedImage(images[randomIndex]);
   };
 
   const handleUpload = () => {
@@ -88,7 +95,7 @@ export default function UserDashboard({ user }: { user: any }) {
         }}
       />
 
-      <DashboardGallery featuredImage={null} gallery={images} />
+      <DashboardGallery featuredImage={featuredImage} gallery={images} />
     </div>
   );
 }
