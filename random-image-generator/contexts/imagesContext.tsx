@@ -63,10 +63,6 @@ export function ImagesProvider({ children }: { children: React.ReactNode }) {
     setImages((prev) => prev.filter((img) => img.path !== path));
   }, []);
 
-  useEffect(() => {
-    refreshImages(); // load all images on startup
-  }, [refreshImages]);
-
   return (
     <ImagesContext.Provider value={{ images, refreshImages, uploadImages, deleteImage }}>
       {children}

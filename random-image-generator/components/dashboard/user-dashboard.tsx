@@ -5,6 +5,7 @@ import { DashboardControls } from "./controls-dashboard";
 import { DashboardGallery } from "./gallery-dashboard";
 import { useImages } from "@/contexts/imagesContext";
 import { useCategories } from "@/contexts/categoryContext";
+import { Image } from "@/types/image";
 
 export default function UserDashboard({ user }: { user: any }) {
   const { images, refreshImages, uploadImages } = useImages();
@@ -15,11 +16,17 @@ export default function UserDashboard({ user }: { user: any }) {
   } = useCategories();
 
   const [category, setCategory] = useState("all");
+  const [featuredImage, setFeaturedImage] = useState<Image | null>(null);
 
   // Load categories on mount
   useEffect(() => {
     refreshCategories();
   }, [refreshCategories]);
+
+  // Load all images on mount
+  useEffect(() => {
+    refreshImages();
+  }, [refreshImages]);
 
   // Load images when category changes
   const handleCategoryChange = (cat: string) => {
