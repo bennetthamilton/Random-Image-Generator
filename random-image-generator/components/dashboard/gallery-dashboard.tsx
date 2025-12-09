@@ -1,14 +1,16 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Image } from "@/types/image";
 
 type DashboardGalleryProps = {
   featuredImage?: Image | null;
   gallery: Image[];
+  onEdit: () => void;
 };
 
-export function DashboardGallery({ featuredImage, gallery }: DashboardGalleryProps) {
+export function DashboardGallery({ featuredImage, gallery, onEdit }: DashboardGalleryProps) {
   return (
     <div className="flex flex-col gap-6">
       <Card className="min-h-[250px] flex items-center justify-center">
@@ -24,7 +26,17 @@ export function DashboardGallery({ featuredImage, gallery }: DashboardGalleryPro
       </Card>
 
       <div>
-        <h2 className="text-lg font-semibold mb-3">Your Gallery</h2>
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-lg font-semibold">Your Gallery</h2>
+
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={onEdit}
+          >
+            Edit
+          </Button>
+        </div>
 
         {gallery.length === 0 ? (
           <Card>
