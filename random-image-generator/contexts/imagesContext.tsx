@@ -43,16 +43,11 @@ export function ImagesProvider({ children }: { children: React.ReactNode }) {
         formData.append("category_id", category_id);
       }
 
-      const res = await fetch("/api/images", {
+      await fetch("/api/images", {
         method: "POST",
         body: formData,
       });
-
-      await res.json();
-      await refreshImages(category_id);
-    },
-    [refreshImages]
-  );
+    }, []);
 
   // Delete image
   const deleteImage = useCallback(async (path: string) => {
@@ -60,7 +55,7 @@ export function ImagesProvider({ children }: { children: React.ReactNode }) {
       method: "DELETE",
       body: JSON.stringify({ path }),
     });
-    
+
     await res.json();
     setImages((prev) => prev.filter((img) => img.path !== path));
   }, []);
