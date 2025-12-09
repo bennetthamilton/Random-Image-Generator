@@ -6,6 +6,14 @@ import { DashboardGallery } from "./gallery-dashboard";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+} from "@/components/ui/dropdown-menu";
 import { useImages } from "@/contexts/imagesContext";
 import { useCategories } from "@/contexts/categoryContext";
 import { Image } from "@/types/image";
@@ -20,23 +28,29 @@ export default function UserDashboard({ user }: { user: any }) {
   } = useCategories();
 
   const [category, setCategory] = useState("all");
+
   const [featuredImage, setFeaturedImage] = useState<Image | null>(null);
 
   const [editMode, setEditMode] = useState(false);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
-
+  // -----------------------------
   // Load categories on mount
+  // -----------------------------
   useEffect(() => {
     refreshCategories();
   }, [refreshCategories]);
 
+  // -----------------------------
   // Load all images on mount
+  // -----------------------------
   useEffect(() => {
     refreshImages();
   }, [refreshImages]);
 
+  // -----------------------------
   // Load images when category changes
+  // -----------------------------
   const handleCategoryChange = (cat: string) => {
     setCategory(cat);
 
@@ -46,6 +60,9 @@ export default function UserDashboard({ user }: { user: any }) {
     refreshImages(cat);
   };
 
+  // -----------------------------
+  // Generate Random Featured Image
+  // -----------------------------
   const handleGenerate = () => {
     if (images.length === 0) {
       setFeaturedImage(null);
@@ -57,6 +74,9 @@ export default function UserDashboard({ user }: { user: any }) {
     setFeaturedImage(images[randomIndex]);
   };
 
+  // -----------------------------
+  // Upload Images Handler
+  // -----------------------------
   const handleUpload = () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -84,6 +104,27 @@ export default function UserDashboard({ user }: { user: any }) {
     input.click();
   };
 
+  // -----------------------------
+  // Bulk Categorization
+  // -----------------------------
+  const handleBulkCategorize = async (category_id: string | null) => {
+    if (selectedImages.length === 0) return;
+
+    await fetch("/api/images/update-category", {
+      method: "POST",
+      body: JSON.stringify({
+        category_id,
+        image_ids: selectedImages,
+      }),
+    });
+
+    await refreshImages(category === "all" ? undefined : category);
+    setSelectedImages([]);
+  };
+
+  // -----------------------------
+  // Bulk Delete
+  // -----------------------------
   const handleBulkDelete = async () => {
     for (const id of selectedImages) {
       const img = images.find((i) => i.id === id);
@@ -102,7 +143,11 @@ export default function UserDashboard({ user }: { user: any }) {
   };
 
   return (
+    
     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+      {/* ========================================= */}
+      {/* MAIN DASHBOARD */}
+      {/* ========================================= */}
       <DashboardControls
         category={category}
         categories={["all", ...categories.map((c) => c.name)]}
@@ -122,7 +167,9 @@ export default function UserDashboard({ user }: { user: any }) {
 
       <DashboardGallery featuredImage={featuredImage} gallery={images} onEdit={() => setEditMode(true)} />
 
-      {/* EDIT MODE */}
+      {/* ========================================= */}
+      {/* EDIT OVERLAY WINDOW */}
+      {/* ========================================= */}
       {editMode && (
         <div
           className="fixed inset-0 z-[2000] bg-black/50 flex items-center justify-center"
@@ -219,14 +266,37 @@ export default function UserDashboard({ user }: { user: any }) {
                   Delete Selected
                 </Button>
 
-                <Button
-                  disabled={selectedImages.length === 0}
-                  onClick={() => {
-                    /* placeholder for categorize modal */
-                  }}
-                >
-                  Categorize Selected
-                </Button>
+                {/* CATEGORIZE SELECTED (Dropdown) */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      disabled={selectedImages.length === 0}
+                    >
+                      Categorize Selected
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent>
+
+                    <DropdownMenuLabel>Assign Category</DropdownMenuLabel>
+
+                    <DropdownMenuItem onClick={() => handleBulkCategorize(null)}>
+                      Uncategorized
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator />
+
+                    {categories.map((cat) => (
+                      <DropdownMenuItem
+                        key={cat.id}
+                        onClick={() => handleBulkCategorize(cat.id)}
+                      >
+                        {cat.name}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
 
             </CardContent>
