@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useImages } from "@/contexts/imagesContext";
 import { useCategories } from "@/contexts/categoryContext";
 import { Image } from "@/types/image";
+import { Check } from "lucide-react";
 
 export default function UserDashboard({ user }: { user: any }) {
   const { images, refreshImages, uploadImages } = useImages();
@@ -190,7 +191,7 @@ export default function UserDashboard({ user }: { user: any }) {
 
                       {active && (
                         <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm">
-                          ✓
+                          <Check className="w-4 h-4" />
                         </div>
                       )}
                     </div>
