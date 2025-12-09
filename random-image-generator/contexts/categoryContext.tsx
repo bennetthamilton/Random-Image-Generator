@@ -6,7 +6,7 @@ import { Category } from "@/types/category";
 type CategoriesContextType = {
   categories: Category[];
   refreshCategories: () => Promise<void>;
-  createCategory: (name: string) => Promise<void>;
+  createCategory: (name: string) => Promise<Category>;
   renameCategory: (id: string, name: string) => Promise<void>;
   deleteCategory: (id: string) => Promise<void>;
 };
@@ -28,13 +28,17 @@ export function CategoriesProvider({ children }: { children: React.ReactNode }) 
   // Create a new category
   const createCategory = useCallback(
     async (name: string) => {
-      await fetch("/api/categories", {
+      const res = await fetch("/api/categories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name }),
       });
 
+      const data = await res.json();
+
       await refreshCategories();
+
+      return data.category;
     },
     [refreshCategories]
   );

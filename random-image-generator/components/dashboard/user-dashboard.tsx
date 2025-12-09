@@ -57,7 +57,11 @@ export default function UserDashboard({ user }: { user: any }) {
     // "__new__" mode → do NOT load images
     if (cat === "__new__") return;
 
-    refreshImages(cat);
+    if (cat === "all") {
+      refreshImages();          // No filter
+    } else {
+      refreshImages(cat);       // Filter by category_id
+    }
   };
 
   // -----------------------------
@@ -156,12 +160,10 @@ export default function UserDashboard({ user }: { user: any }) {
         onGenerate={handleGenerate}
         onUpload={handleUpload}
         createCategory={async (name: string) => {
-          await createCategory(name);
-          await refreshCategories();
-
-          // After creation, auto-select category
-          setCategory(name);
-          refreshImages(name);
+          const newCat = await createCategory(name);
+          
+          setCategory(newCat.id);  
+          refreshImages(newCat.id);
         }}
       />
 
