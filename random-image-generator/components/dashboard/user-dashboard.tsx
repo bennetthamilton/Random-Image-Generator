@@ -250,15 +250,6 @@ export default function UserDashboard({ user }: { user: any }) {
 
               {/* ACTION BUTTONS */}
               <div className="flex justify-end gap-3 pt-4 border-t">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setEditMode(false);
-                    setSelectedImages([]);
-                  }}
-                >
-                  Cancel
-                </Button>
 
                 <Button
                   variant="destructive"
