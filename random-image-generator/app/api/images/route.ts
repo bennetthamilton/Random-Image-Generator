@@ -29,18 +29,26 @@ export async function GET(request: Request) {
 
   if (error) return NextResponse.json({ message: error.message }, { status: 500 });
 
-  // Attach public URL
-  const result = images.map((img) => ({
-    id: img.id,
-    user_id: img.user_id,
-    path: img.path,
-    filename: img.filename,
-    category_id: img.category_id,
-    category_name: img.categories?.name ?? null,
-    created_at: img.created_at,
-    updated_at: img.updated_at,
-    url: supabase.storage.from("images").getPublicUrl(img.path).data.publicUrl,
-  }));
+  // Attach signed URLs
+  const result = await Promise.all(
+    images.map(async (img) => {
+      const { data: signed } = await supabase.storage
+        .from("images")
+        .createSignedUrl(img.path, 60 * 60); // valid for 1 hour
+
+      return {
+        id: img.id,
+        user_id: img.user_id,
+        path: img.path,
+        filename: img.filename,
+        category_id: img.category_id,
+        category_name: img.categories?.name ?? null,
+        created_at: img.created_at,
+        updated_at: img.updated_at,
+        url: signed?.signedUrl ?? null,
+      };
+    })
+  );
 
   return NextResponse.json({ images: result });
 }
