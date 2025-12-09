@@ -150,7 +150,7 @@ export default function UserDashboard({ user }: { user: any }) {
       {/* ========================================= */}
       <DashboardControls
         category={category}
-        categories={["all", ...categories.map((c) => c.name)]}
+        categories={categories.map((c) => ({ id: c.id, name: c.name }))} 
         imagesCount={images.length}
         onCategoryChange={handleCategoryChange}
         onGenerate={handleGenerate}

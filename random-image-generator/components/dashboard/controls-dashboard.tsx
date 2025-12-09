@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 type DashboardControlsProps = {
   category: string;
-  categories: string[];
+  categories: { id: string; name: string }[];
   imagesCount: number;
   onCategoryChange: (category: string) => void;
   onGenerate: () => void;
@@ -49,9 +49,11 @@ export function DashboardControls({
           value={category}
           onChange={(e) => onCategoryChange(e.target.value)}
         >
+          <option value="all">All</option>
+
           {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
             </option>
           ))}
 
