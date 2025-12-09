@@ -47,6 +47,8 @@ export async function GET(request: Request) {
 
 // POST /api/images - Upload images
 export async function POST(request: Request) {
+  console.log("UPLOAD ROUTE HIT");
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -73,6 +75,8 @@ export async function POST(request: Request) {
     const { error: uploadError } = await supabase.storage
       .from("images")
       .upload(path, file);
+
+    console.log("UPLOAD ERROR:", uploadError);
 
     if (uploadError) continue;
 

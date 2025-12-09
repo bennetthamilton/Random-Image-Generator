@@ -43,6 +43,9 @@ export function ImagesProvider({ children }: { children: React.ReactNode }) {
         formData.append("category_id", category_id);
       }
 
+      console.log("UPLOADING FILES:", files);
+      console.log("CATEGORY_ID:", category_id);
+
       await fetch("/api/images", {
         method: "POST",
         body: formData,
